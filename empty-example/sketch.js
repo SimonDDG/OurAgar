@@ -5,6 +5,7 @@ var blobs = [];
 
 function setup() {
   createCanvas(600, 600);
+  
 
   blob = new Blob(width / 2, height / 2, 64);
   for (let i = 0; i < 60; i++) {
