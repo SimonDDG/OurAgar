@@ -23,6 +23,11 @@ this.eats = function (smallerBlob) {
     }
 }
 
+this.constrain = function(minW, maxW, minH, maxH) {
+    player.pos.x = constrain(player.pos.x, minW, maxW)
+    player.pos.y = constrain(player.pos.y, minH, maxH)
+}
+
 
     this.show = function () {
         fill(255);

@@ -1,4 +1,5 @@
 
+
 var socket;
 
 var started = false;
@@ -7,17 +8,37 @@ var player;
 var zoom = 1;
 
 var blobs = [];
+var otherPlayers = [];
+
+var thisId;
 
 
 function setup() {
 socket = io.connect('http://localhost:3000/')
 
   createCanvas(windowWidth, windowHeight);
-background(255, 10, 200);
+  background(255, 10, 200);
   noLoop();
 
-  player = new Blob(width / 2, height / 2, 64);
+  player = new Blob(random(width / 2), random(height / 2), random(24, 64));
+
+  var data = {
+    x: player.pos.x,
+    y: player.pos.y,
+    r: player.r
+  }
+  socket.emit('start', data);
+
+  socket.on('getId', function(data) {
+    thisId = data
+  }); 
+  
+
   createBlobs();
+
+  socket.on('heartbeat', function(data){
+    otherPlayers = data;
+  })
 
 }
 
@@ -51,8 +72,30 @@ function draw() {
     }
     //blobs[i].show();
   }
+
+  for (let i = 0; i < otherPlayers.length; i++){
+
+    if (otherPlayers[i].id != thisId){
+    fill (0, 255, 0);
+    ellipse(otherPlayers[i].x, otherPlayers[i].y, otherPlayers[i].r*2, otherPlayers[i].r*2);
+  
+    fill (255);
+    textAlign(CENTER);
+    //textSize(2);
+    text(otherPlayers[i].id, otherPlayers[i].x, otherPlayers[i].y + otherPlayers[i].r);
+  }
+}
+
   player.show();
   player.update();
+  player.constrain(-300, 300, -300, 300);
+
+  var data = {
+    x: player.pos.x,
+    y: player.pos.y,
+    r: player.r
+  }
+  socket.emit('update', data);
 
 }
 
