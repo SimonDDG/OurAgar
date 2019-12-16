@@ -6,14 +6,17 @@ var zoom = 1;
 
 var blobs = [];
 
+
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(windowWidth, windowHeight);
+background(255, 10, 200);
   noLoop();
 
   player = new Blob(width / 2, height / 2, 64);
   createBlobs();
 
 }
+
 
 function createBlobs() {
   for (let i = 0; i < 200; i++) {
@@ -25,10 +28,9 @@ function createBlobs() {
 
 
 function draw() {
-  if(started) {
-
-  background(0);
+  background(200);
   translate(width/2, height/2);
+ 
 
   var newScale = 64 / player.r;
   zoom = lerp(zoom, newScale, 0.1);
