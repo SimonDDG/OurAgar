@@ -1,4 +1,7 @@
 
+//bonusvaribel
+let x, y;
+
 var player;
 var zoom = 1;
 
@@ -7,7 +10,10 @@ var blobs = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(255, 10, 200);
+
+  //bonusblob
+  x = width / 2;
+  y = height;
 
   player = new Blob(width / 2, height / 2, 64);
   createBlobs();
@@ -25,8 +31,19 @@ function createBlobs() {
 
 
 function draw() {
-  background(200);
+  background(0);
+  
+  //bonusblob movement
+  fill(255,204,0);
+  ellipse(x, y, 24, 24);
+  x = x + random(-75, 75);
+  y = y - 4;
+  if (y < 0) {
+    y = height;
+  }
+
   translate(width/2, height/2);
+  
  
 
   var newScale = 64 / player.r;
@@ -48,3 +65,5 @@ function draw() {
   player.update();
 
 }
+
+
