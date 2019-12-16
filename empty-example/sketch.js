@@ -1,30 +1,46 @@
 
-var blob;
+var player;
+var zoom = 1;
 
 var blobs = [];
 
 function setup() {
   createCanvas(600, 600);
 
-  blob = new Blob(width / 2, height / 2, 64);
-  for (let i = 0; i < 60; i++) {
-    let x = random(-width, width * 2)
-    let y = random(-height, height * 2)
-    blobs[i] = new Blob(x, y, 16);
-  }
+  player = new Blob(width / 2, height / 2, 64);
+  createBlobs();
 
 }
 
+function createBlobs() {
+  for (let i = 0; i < 200; i++) {
+    let x = random(-width*2, width * 4)
+    let y = random(-height*2, height * 4)
+    blobs.push(new Blob(x, y, 16));
+  }
+}
+
+
 function draw() {
   background(0);
-  translate(width / 2 - blob.pos.x, height / 2 - blob.pos.y);
+  translate(width/2, height/2);
+
+  var newScale = 64 / player.r;
+  zoom = lerp(zoom, newScale, 0.1);
+  scale(zoom);
+
+  translate(-player.pos.x, -player.pos.y);
   for (let i = blobs.length-1; i >= 0; i--) {
-    blob.show();
-    if(blob.eats(blobs[i])){
-      blobs.splice(i,1);
-    }
     blobs[i].show();
+    if(player.eats(blobs[i])){
+      blobs.splice(i,1);
+      if(blobs.length < 195) {
+          createBlobs();
+      }
+    }
+    //blobs[i].show();
   }
-  blob.update();
+  player.show();
+  player.update();
 
 }
