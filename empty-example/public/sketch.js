@@ -1,4 +1,6 @@
 
+var socket;
+
 var started = false;
 
 var player;
@@ -8,6 +10,8 @@ var blobs = [];
 
 
 function setup() {
+socket = io.connect('http://localhost:3000/')
+
   createCanvas(windowWidth, windowHeight);
 background(255, 10, 200);
   noLoop();
