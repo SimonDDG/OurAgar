@@ -51,7 +51,7 @@ function draw() {
   player.update();
 
 }
-}
+
 
 function start() {
   started = true;
