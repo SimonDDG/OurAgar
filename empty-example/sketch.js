@@ -1,4 +1,6 @@
 
+var started = false;
+
 var player;
 var zoom = 1;
 
@@ -6,6 +8,7 @@ var blobs = [];
 
 function setup() {
   createCanvas(600, 600);
+  noLoop();
 
   player = new Blob(width / 2, height / 2, 64);
   createBlobs();
@@ -22,6 +25,8 @@ function createBlobs() {
 
 
 function draw() {
+  if(started) {
+
   background(0);
   translate(width/2, height/2);
 
@@ -43,4 +48,10 @@ function draw() {
   player.show();
   player.update();
 
+}
+}
+
+function start() {
+  started = true;
+  loop();
 }
