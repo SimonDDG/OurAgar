@@ -105,7 +105,7 @@ function draw() {
   ellipse(killer.x, killer.y, killer.r, killer.r);
   killer.x += random(-75, 75);
   killer.y -= 4;
-  console.log(killer.y)
+  
   if (killer.y < minHeight) {
     killer.y = maxHeight;
   }
@@ -136,15 +136,24 @@ function draw() {
 
   //lägga till "player krock" --> constrain funktionen i blob filen
   for (let i = 0; i < otherPlayers.length; i++){
-
     if (otherPlayers[i].id != thisId){
-    fill (0, 255, 0);
-    ellipse(otherPlayers[i].x, otherPlayers[i].y, otherPlayers[i].r*2, otherPlayers[i].r*2);
+    
+      fill (0, 255, 0);
+      ellipse(otherPlayers[i].x, otherPlayers[i].y, otherPlayers[i].r*2, otherPlayers[i].r*2);
+
+      let currentDist = dist(otherPlayers[i].x, otherPlayers[i].y, player.pos.x, player.pos.y)
+      let disttanceSum = otherPlayers[i].r + player.r;
+
+      if (currentDist < disttanceSum){
+        if (otherPlayers[i].r > player.r){
+
+          console.log("NAMNAMNAMANAMANA")
+          
+        }
+      }
+      
+
   
-    fill (255);
-    textAlign(CENTER);
-    //textSize(2);
-    text(otherPlayers[i].id, otherPlayers[i].x, otherPlayers[i].y + otherPlayers[i].r);
   }
 }
 
