@@ -1,12 +1,29 @@
+var counter = 0;
+var timeLeft = 3;
+var timer;
+var interval;
 
+function countdown() {
+  timer = select('#countdown');
+  timer.html(timeLeft - counter);
+  interval = setInterval(timeIt, 1000);
+}
+
+function timeIt() {
+  counter++;
+  timer.html(timeLeft - counter);
+  if(counter === timeLeft) {
+    clearInterval(interval);
+    document.getElementById('countdown').innerHTML = '';
+    start();
+  }
+}
 
 var socket;
 
 var started = false;
-
 var player;
 var zoom = 1;
-
 var blobs = [];
 var xmaspicture;
 var otherPlayers = [];
