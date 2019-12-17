@@ -3,6 +3,12 @@ var timeLeft = 3;
 var timer;
 var interval;
 
+var killer = {
+  x: -1000,
+  y: 1000,
+  r: 40
+}
+
 function countdown() {
   timer = select('#countdown');
   timer.html(timeLeft - counter);
@@ -93,6 +99,15 @@ function draw() {
 //  background(xmaspicture);
   translate(width/2, height/2);
  
+  //KILLER BLOB
+  fill(0);
+  ellipse(killer.x, killer.y, killer.r, killer.r);
+  killer.x += random(-75, 75);
+  killer.y -= 4;
+  console.log(killer.y)
+  if (killer.y < minHeight) {
+    killer.y = maxHeight;
+  }
 
   var newScale = 64 / player.r;
   zoom = lerp(zoom, newScale, 0.1);
