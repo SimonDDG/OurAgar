@@ -5,8 +5,8 @@ var timer;
 var interval;
 
 var killer = {
-  x: -1000,
-  y: 1000,
+  x: 100,
+  y: 100,
   r: 40
 }
 
@@ -48,14 +48,17 @@ var maxHeight = (600 * 4)
 
 
 function setup() {
-socket = io.connect('http://192.168.25.78:8080/')
+socket = io.connect('http://192.168.25.85:8080/')
 
   createCanvas(windowWidth, windowHeight);
-background(255, 10, 200);
+  background(255, 10, 200);
  // background(xmaspicture);
   noLoop();
 
   player = new Blob(random(width / 2), random(height / 2), random(24, 64), 255);
+
+  //killer = new Killer(width/2, height/2, 16, 0);
+
 
   //Skickar den unika kientens data till server vid start.
   var data = {
@@ -111,11 +114,17 @@ function draw() {
   //KILLER BLOB
   fill(0);
   ellipse(killer.x, killer.y, killer.r, killer.r);
-  killer.x += random(-75, 75);
+  killer.x += random(-5, 5);
   killer.y -= 4;
   
   if (killer.y < minHeight) {
     killer.y = maxHeight;
+  }
+
+  var killerDistance = dist(killer.x, killer.y, player.pos.x, player.pos.y);
+
+  if (killerDistance < (player.r + killer.r)) {
+    console.log("nam")
   }
 
   var newScale = 64 / player.r;
@@ -140,6 +149,25 @@ function draw() {
       }
     }
   }
+
+  
+  
+
+  //kolla om krock med blob
+    /*if(player.eatsKiller(killer)) {
+      
+      for (let i = 0; i < otherPlayers.length; i++){
+        if(otherPlayers[i].id !== thisId) {
+            //radius minska
+            otherPlayers[i].r = 64;
+        }
+      }
+
+    }*/
+  
+
+
+
 
 
   //lägga till "player krock" --> constrain funktionen i blob filen

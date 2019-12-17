@@ -10,6 +10,7 @@ function Blob (x, y, r, color) {
       this.velocity.lerp(newVelocity, 0.1);
       this.pos.add(this.velocity);
     }
+
   
 
 this.eats = function (smallerBlob) {
@@ -24,6 +25,8 @@ this.eats = function (smallerBlob) {
     }
 }
 
+
+
 this.constrain = function(minW, maxW, minH, maxH) {
     player.pos.x = constrain(player.pos.x, minW, maxW)
     player.pos.y = constrain(player.pos.y, minH, maxH)
@@ -34,4 +37,51 @@ this.constrain = function(minW, maxW, minH, maxH) {
         fill(this.color);  
         ellipse(this.pos.x, this.pos.y, this.r*2, this.r*2);
     }
+
   }
+
+/*
+
+  function Killer (x,y,r, color) {
+  
+    this.pos = createVector(x, y);
+    this.r = r;
+    this.velocity = createVector(0,0);
+    this.color=color;
+
+
+    this.show = function () {
+        fill(this.color);  
+        ellipse(this.pos.x, this.pos.y, this.r*2, this.r*2);
+          }
+
+
+          this.updateKiller = function() {
+            killer.x += random(-5, 5);
+            killer.y -= 1;
+            console.log(killer.y)
+            /*
+            var killerX = 20;
+            var killerY = random(-600, 600);
+            var newVelocity = createVector(killerX, killerY);
+            //newVelocity.setMag(3);
+            //this.velocity.lerp(newVelocity, 1);
+            this.pos.add(this.newVelocity);
+            
+          }
+        
+    }
+
+
+
+/*
+this.eatsKiller = function(killer) {
+    let distance = p5.Vector.dist(this.pos, killer.pos);
+    if(distance < this.r + killer.r) {
+        var sum = PI * this.r * this.r + PI * killer.r * killer.r;
+        this.r = sqrt(sum/PI * 10);
+        return true;
+    } else {
+        return false;
+    }
+}*/
