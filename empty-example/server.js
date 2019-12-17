@@ -12,7 +12,7 @@ function Player(id, x, y, r, color) {
 var express = require('express');
 
 var app = express();
-var server = app.listen(3000);
+var server = app.listen(8080);
 
 app.use(express.static('public'));
 
@@ -41,7 +41,7 @@ function newConnection(socket){
     //Får info från unik klient, lägger till i lista med alla spelare
     socket.on('start',
     function(data){
-        //console.log(socket.id + " " + data.x + " " + data.y +  " " + data.r)
+        console.log(socket.id + " " + data.x + " " + data.y +  " " + data.r + " "+ data.color)
         var player = new Player(socket.id, data.x, data.y, data.r, data.color);
         players.push(player);
     });

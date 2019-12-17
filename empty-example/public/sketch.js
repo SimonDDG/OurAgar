@@ -46,7 +46,7 @@ var maxHeight = (600 * 4)
 
 
 function setup() {
-socket = io.connect('http://localhost:3000/')
+socket = io.connect('http://192.168.25.78:8080/')
 
   createCanvas(windowWidth, windowHeight);
 background(255, 10, 200);
