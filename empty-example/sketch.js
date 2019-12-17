@@ -1,11 +1,21 @@
 
+//bonusvaribel
+let x, y;
+
 var blob;
 
 var blobs = [];
 
 function setup() {
-  createCanvas(600, 600);
-  
+  createCanvas(windowWidth, windowHeight);
+  background(255, 10, 200);
+
+//bonusblob
+  x = width / 2;
+  y = height;
+
+  player = new Blob(width / 2, height / 2, 64);
+  createBlobs();
 
   blob = new Blob(width / 2, height / 2, 64);
   for (let i = 0; i < 60; i++) {
@@ -17,8 +27,24 @@ function setup() {
 }
 
 function draw() {
-  background(0);
-  translate(width / 2 - blob.pos.x, height / 2 - blob.pos.y);
+  background(200);
+
+  //bonusblob movement
+  fill(0);
+  ellipse(x, y, 24, 24);
+  x = x + random(-75, 75);
+  y = y - 4;
+  if (y < 0) {
+    y = height;
+  }
+  translate(width/2, height/2);
+ 
+
+  var newScale = 64 / player.r;
+  zoom = lerp(zoom, newScale, 0.1);
+  scale(zoom);
+
+  translate(-player.pos.x, -player.pos.y);
   for (let i = blobs.length-1; i >= 0; i--) {
     blob.show();
     if(blob.eats(blobs[i])){
@@ -29,3 +55,5 @@ function draw() {
   blob.update();
 
 }
+
+
