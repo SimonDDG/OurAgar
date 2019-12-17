@@ -21,6 +21,7 @@ var io = socket(server);
 
 setInterval(heartbeat, 10);
 
+//uppdatering mellan klienterna
 function heartbeat() {
     io.sockets.emit('heartbeat', players);
 

@@ -36,9 +36,12 @@ socket = io.connect('http://localhost:3000/')
 
   createBlobs();
 
+  //Hämtar de andra spelarna (heartbeat skickar varje 0,01sek ish)
   socket.on('heartbeat', function(data){
     otherPlayers = data;
   })
+
+  //hämta blobs från server till array
 
 }
 
@@ -47,8 +50,11 @@ function createBlobs() {
   for (let i = 0; i < 200; i++) {
     let x = random(-width*2, width * 4)
     let y = random(-height*2, height * 4)
-    blobs.push(new Blob(x, y, 16));
+    //ha en tillfällig array för att inte fucka med gemensamma blobs, så att man kan skicka rena opåverkade såna.
+    blobs.push(new Blob(x, y, 16)); 
   }
+
+  //skicka blobs till server (för att senare skicka dessa tillbaka till alla)
 }
 
 
@@ -62,6 +68,8 @@ function draw() {
   scale(zoom);
 
   translate(-player.pos.x, -player.pos.y);
+
+  //hämta blobs från server
   for (let i = blobs.length-1; i >= 0; i--) {
     blobs[i].show();
     if(player.eats(blobs[i])){
