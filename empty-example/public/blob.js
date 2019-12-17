@@ -1,7 +1,8 @@
-function Blob (x, y, r) {
+function Blob (x, y, r, color) {
     this.pos = createVector(x, y);
     this.r = r;
     this.velocity = createVector(0,0);
+    this.color=color;
 
     this.update = function() {
       var newVelocity = createVector(mouseX-width/2, mouseY-height/2);
@@ -25,8 +26,7 @@ this.eats = function (smallerBlob) {
 
 
     this.show = function () {
-        fill(255);
-  
+        fill(this.color);  
         ellipse(this.pos.x, this.pos.y, this.r*2, this.r*2);
     }
   }
