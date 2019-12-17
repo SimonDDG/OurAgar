@@ -1,15 +1,34 @@
+var counter = 0;
+var timeLeft = 3;
+var timer;
+var interval;
+
+function countdown() {
+  timer = select('#countdown');
+  timer.html(timeLeft - counter);
+  interval = setInterval(timeIt, 1000);
+}
+
+function timeIt() {
+  counter++;
+  timer.html(timeLeft - counter);
+  if(counter === timeLeft) {
+    clearInterval(interval);
+    document.getElementById('countdown').innerHTML = '';
+    start();
+  }
+}
+
 
 var started = false;
-
 var player;
 var zoom = 1;
-
 var blobs = [];
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-background(255, 10, 200);
+  background(255, 10, 200);
   noLoop();
 
   player = new Blob(width / 2, height / 2, 64);
@@ -45,7 +64,6 @@ function draw() {
           createBlobs();
       }
     }
-    //blobs[i].show();
   }
   player.show();
   player.update();

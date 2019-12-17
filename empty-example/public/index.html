@@ -6,16 +6,27 @@
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
     <title>Agar.io</title>
   </head>
 
   <body>
 
 
-    <button type="button" class="btn btn-primary btn-lg btn-block" onClick="start(); this.style.display = 'none';">Start game</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block" onClick="countdown(); this.style.display = 'none';">Start game</button>
+    <!--onClick="start(); this.style.display = 'none';-->
 
 
-  
+    <div class="timer">
+      <div id="countdown"></div>
+      <style> .timer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 350px;
+        } </style>
+    </div>
 
 
     <div class="playingField">
