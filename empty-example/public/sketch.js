@@ -1,3 +1,4 @@
+
 var counter = 0;
 var timeLeft = 3;
 var timer;
@@ -80,6 +81,10 @@ background(255, 10, 200);
 
   //hämta blobs från server till array
 
+  socket.on('killIncrease', function(data){
+    this.player.r += data.size + 100;
+  })
+
 }
 
 function createBlobs() {
@@ -95,8 +100,11 @@ function createBlobs() {
 }
 
 
+var isLiving = true;
+
 function draw() {
-  background(255, 204, 0);      //background in color
+  background(255, 204, 0);      
+  //background in color
 //  background(xmaspicture);
   translate(width/2, height/2);
  
@@ -147,8 +155,19 @@ function draw() {
       if (currentDist < disttanceSum){
         if (otherPlayers[i].r > player.r){
 
-          console.log("NAMNAMNAMANAMANA")
+          var killData = {
+            otherId: otherPlayers[i].id,
+            playerId: thisId,
+            size: player.r
+          }
+          socket.emit('kill', killData)
+
+          isLiving = false;
           
+          console.log("NAMNAMNAMANAMANA")
+
+          
+
         }
       }
       
@@ -157,13 +176,10 @@ function draw() {
   }
 }
 
+if (isLiving){
   player.show();
   player.update();
 
-  //THE CLAMP O_o
-  player.constrain(minWidth, maxWidht, minHeight, maxHeight);
-
-  //skickar clientens data till servers och alla andra
   var data = {
     x: player.pos.x,
     y: player.pos.y,
@@ -171,6 +187,21 @@ function draw() {
     color: 255
   }
   socket.emit('update', data);
+
+} else {
+  player.r = 0;
+
+  fill(255)
+  textAlign(CENTER);
+  textSize(50);
+  text("DÖD", player.pos.x, player.pos.y)
+}
+
+  //THE CLAMP O_o
+  player.constrain(minWidth, maxWidht, minHeight, maxHeight);
+
+  //skickar clientens data till servers och alla andra
+  
 
 }
 /*

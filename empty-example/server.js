@@ -21,6 +21,8 @@ var socket = require('socket.io');
 
 var io = socket(server);
 
+var killSwitch = true;
+
 
 //uppdatering mellan klienterna
 setInterval(heartbeat, 10);
@@ -46,6 +48,8 @@ function newConnection(socket){
         players.push(player);
     });
 
+    
+
     //får info från specefik client om uppdatering av position
     socket.on('update',
     function(data){
@@ -60,9 +64,41 @@ function newConnection(socket){
 
         currentPlayer.x = data.x;
         currentPlayer.y = data.y;
-        currentPlayer.r = data.r;
+
+        if (killSwitch){
+            currentPlayer.r = data.r;
+        } else {
+            currentPlayer.r = data.r + 500;
+            killSwitch = true;
+        }
+
         currentPlayer.color = data.color
 
+    });
+
+    socket.on('kill',
+    function(killData){
+        for (let i = 0; i < players.length; i++){
+
+            if (killData.otherId == players[i].id) {
+                //players[i].r += killData.size;
+                //players[i].r = players[i].r + 500;
+                //console.log(killData.otherId);
+                //console.log(killData.size);
+
+                //killSwitch = false;
+                var killDataSiza = {
+                    size:killData.size 
+                }
+                socket.emit('killIncrease', killDataSiza )
+                
+            }
+
+            if (killData.playerId == players[i].id) {
+                players.splice(i, 1);
+            }
+
+        }
     });
     
 }
