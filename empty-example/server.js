@@ -1,11 +1,12 @@
 
 //Objekt och lista för att kunna hålla spelare och ev. blobs
 var players = [];
-function Player(id, x, y, r) {
+function Player(id, x, y, r, color) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.r = r;
+    this.color = color;
 }
 
 var express = require('express');
@@ -41,7 +42,7 @@ function newConnection(socket){
     socket.on('start',
     function(data){
         //console.log(socket.id + " " + data.x + " " + data.y +  " " + data.r)
-        var player = new Player(socket.id, data.x, data.y, data.r);
+        var player = new Player(socket.id, data.x, data.y, data.r, data.color);
         players.push(player);
     });
 
@@ -60,6 +61,7 @@ function newConnection(socket){
         currentPlayer.x = data.x;
         currentPlayer.y = data.y;
         currentPlayer.r = data.r;
+        currentPlayer.color = data.color
 
     });
     

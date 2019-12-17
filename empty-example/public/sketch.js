@@ -14,6 +14,13 @@ var otherPlayers = [];
 var blobColors = ['rgb(0,255,0)', 'rgb(100%,0%,10%)', 'rgb(100%,0%,100%)', 'rgb(30,144,255)', 'rgb(50, 55, 100)'];
 var thisId;
 
+var minWidth = (-600*2)
+var maxWidht = (600 * 4)
+
+var minHeight = (-600*2)
+var maxHeight = (600 * 4)
+
+
 
 function setup() {
 socket = io.connect('http://localhost:3000/')
@@ -23,13 +30,14 @@ background(255, 10, 200);
  // background(xmaspicture);
   noLoop();
 
-  player = new Blob(random(width / 2), random(height / 2), random(24, 64));
+  player = new Blob(random(width / 2), random(height / 2), random(24, 64), 255);
 
   //Skickar den unika kientens data till server vid start.
   var data = {
     x: player.pos.x,
     y: player.pos.y,
-    r: player.r
+    r: player.r,
+    color: 255
   }
   socket.emit('start', data);
 
@@ -53,8 +61,8 @@ background(255, 10, 200);
 function createBlobs() {
   for (let i = 0; i < 200; i++) {
     let color = blobColors[i%blobColors.length];
-    let x = random(-width*2, width * 4)
-    let y = random(-height*2, height * 4)
+    let x = random(minWidth, maxWidht)
+    let y = random(minHeight, maxHeight)
     //ha en tillfällig array för att inte fucka med gemensamma blobs, så att man kan skicka rena opåverkade såna.
     blobs.push(new Blob(x, y, 16, color)); 
   }
@@ -111,13 +119,14 @@ function draw() {
   player.update();
 
   //THE CLAMP O_o
-  player.constrain(-300, 300, -300, 300);
+  player.constrain(minWidth, maxWidht, minHeight, maxHeight);
 
   //skickar clientens data till servers och alla andra
   var data = {
     x: player.pos.x,
     y: player.pos.y,
-    r: player.r
+    r: player.r,
+    color: 255
   }
   socket.emit('update', data);
 
