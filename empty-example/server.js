@@ -1,6 +1,6 @@
 
+//Objekt och lista för att kunna hålla spelare och ev. blobs
 var players = [];
-
 function Player(id, x, y, r) {
     this.id = id;
     this.x = x;
@@ -15,33 +15,37 @@ var server = app.listen(3000);
 
 app.use(express.static('public'));
 
+
 var socket = require('socket.io');
 
 var io = socket(server);
 
-setInterval(heartbeat, 10);
 
 //uppdatering mellan klienterna
+setInterval(heartbeat, 10);
 function heartbeat() {
     io.sockets.emit('heartbeat', players);
-
+    //lägga till blobs uppdatering
 }
 
+//När det sker en ny connection så körs funktionen "newConnection"
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket){
-    console.log("socket ;) id: " + socket.id);
+    //console.log("socket ;) id: " + socket.id);
 
+    //skickar specifik ID
     socket.emit('getId', socket.id);
 
+    //Får info från unik klient, lägger till i lista med alla spelare
     socket.on('start',
     function(data){
-        console.log(socket.id + " " + data.x + " " + data.y +  " " + data.r)
+        //console.log(socket.id + " " + data.x + " " + data.y +  " " + data.r)
         var player = new Player(socket.id, data.x, data.y, data.r);
         players.push(player);
     });
 
-
+    //får info från specefik client om uppdatering av position
     socket.on('update',
     function(data){
         

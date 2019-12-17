@@ -22,6 +22,7 @@ socket = io.connect('http://localhost:3000/')
 
   player = new Blob(random(width / 2), random(height / 2), random(24, 64));
 
+  //Skickar den unika kientens data till server vid start.
   var data = {
     x: player.pos.x,
     y: player.pos.y,
@@ -29,11 +30,12 @@ socket = io.connect('http://localhost:3000/')
   }
   socket.emit('start', data);
 
+  //får den unika klientens ID från servern
   socket.on('getId', function(data) {
     thisId = data
   }); 
   
-
+  //skapar första vändan av blobs, osäker om denna ska vara kvar..., så att ny inte skapas vid varje inlogg
   createBlobs();
 
   //Hämtar de andra spelarna (heartbeat skickar varje 0,01sek ish)
@@ -103,6 +105,8 @@ function draw() {
 
   player.show();
   player.update();
+
+  //THE CLAMP O_o
   player.constrain(-300, 300, -300, 300);
 
   //skickar clientens data till servers och alla andra
