@@ -37,6 +37,7 @@ var otherPlayers = [];
 var blobColors = ['rgb(0,255,0)', 'rgb(100%,0%,10%)', 'rgb(100%,0%,100%)', 'rgb(30,144,255)', 'rgb(50, 55, 100)'];
 var thisId;
 
+
 var minWidth = (-600*2)
 var maxWidht = (600 * 4)
 
