@@ -8,8 +8,10 @@ var player;
 var zoom = 1;
 
 var blobs = [];
+var xmaspicture;
 var otherPlayers = [];
 
+var blobColors = ['rgb(0,255,0)', 'rgb(100%,0%,10%)', 'rgb(100%,0%,100%)', 'rgb(30,144,255)', 'rgb(50, 55, 100)'];
 var thisId;
 
 
@@ -17,7 +19,8 @@ function setup() {
 socket = io.connect('http://localhost:3000/')
 
   createCanvas(windowWidth, windowHeight);
-  background(255, 10, 200);
+background(255, 10, 200);
+ // background(xmaspicture);
   noLoop();
 
   player = new Blob(random(width / 2), random(height / 2), random(24, 64));
@@ -47,13 +50,13 @@ socket = io.connect('http://localhost:3000/')
 
 }
 
-
 function createBlobs() {
   for (let i = 0; i < 200; i++) {
+    let color = blobColors[i%blobColors.length];
     let x = random(-width*2, width * 4)
     let y = random(-height*2, height * 4)
     //ha en tillfällig array för att inte fucka med gemensamma blobs, så att man kan skicka rena opåverkade såna.
-    blobs.push(new Blob(x, y, 16)); 
+    blobs.push(new Blob(x, y, 16, color)); 
   }
 
   //skicka blobs till server (för att senare skicka dessa tillbaka till alla)
@@ -61,7 +64,8 @@ function createBlobs() {
 
 
 function draw() {
-  background(200);
+  background(255, 204, 0);      //background in color
+//  background(xmaspicture);
   translate(width/2, height/2);
  
 
@@ -118,9 +122,14 @@ function draw() {
   socket.emit('update', data);
 
 }
+/*
+function preload() {
+  xmaspicture = loadImage('xmaspicture.jpg')
+} // close preload*/
 
 
 function start() {
   started = true;
   loop();
 }
+
