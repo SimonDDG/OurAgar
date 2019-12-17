@@ -35,7 +35,7 @@ var blobs = [];
 var xmaspicture;
 var otherPlayers = [];
 
-var blobColors = ['rgb(0,255,0)', 'rgb(100%,0%,10%)', 'rgb(100%,0%,100%)', 'rgb(30,144,255)', 'rgb(50, 55, 100)'];
+var blobColors = ['rgb(100%,0%,10%)', 'rgb(100%,0%,100%)', 'rgb(30,144,255)', 'rgb(50, 55, 100)'];
 var thisId;
 
 
@@ -44,6 +44,8 @@ var maxWidht = (600 * 4)
 
 var minHeight = (-600*2)
 var maxHeight = (600 * 4)
+
+var amIfucked = false;
 
 
 
@@ -55,7 +57,7 @@ socket = io.connect('http://192.168.25.85:8080/')
  // background(xmaspicture);
   noLoop();
 
-  player = new Blob(random(width / 2), random(height / 2), random(24, 64), 255);
+  player = new Blob(random(-400, 400), random(-400, 400), 64, 255);
 
   //killer = new Killer(width/2, height/2, 16, 0);
 
@@ -83,10 +85,15 @@ socket = io.connect('http://192.168.25.85:8080/')
   })
 
   //hämta blobs från server till array
-
+/*
   socket.on('killIncrease', function(data){
     this.player.r += data.size + 100;
   })
+*/
+  socket.on('fucked', 
+    function(isReallyFucked){
+      this.amIfucked = true;
+    });
 
 }
 
@@ -121,9 +128,16 @@ function draw() {
     killer.y = maxHeight;
   }
 
-  var killerDistance = dist(killer.x, killer.y, player.pos.x, player.pos.y);
+  var killerDistance = dist(killer.x, killer.y, this.player.pos.x, this.player.pos.y);
 
-  if (killerDistance < (player.r + killer.r)) {
+  if (killerDistance < (this.player.r + killer.r)) {
+
+    var isFucked = {
+      id: thisId,
+      is: true
+    }
+    socket.emit('fucked', isFucked);
+
     console.log("nam")
   }
 
@@ -204,7 +218,16 @@ function draw() {
   }
 }
 
+
+
 if (isLiving){
+
+  if (amIfucked){
+    player.shrink();
+    console.log("I'am FUCKED!!!!!")
+    this.amIfucked = false;
+  } 
+
   player.show();
   player.update();
 

@@ -76,6 +76,20 @@ function newConnection(socket){
 
     });
 
+    socket.on('fucked', 
+    function(isFucked){
+        for (let i = 0; i < players.length; i++){
+            if (isFucked.id != players[i].id) {
+
+                var isnewFucked = {
+                    is: true
+                  }
+                  socket.emit('fucked', isnewFucked); 
+
+            }
+        }
+    })
+
     socket.on('kill',
     function(killData){
         for (let i = 0; i < players.length; i++){

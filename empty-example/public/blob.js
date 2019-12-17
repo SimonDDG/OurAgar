@@ -4,6 +4,10 @@ function Blob (x, y, r, color) {
     this.velocity = createVector(0,0);
     this.color=color;
 
+    this.shrink = function() {
+        this.r = this.r * 0.5;
+    }
+
     this.update = function() {
       var newVelocity = createVector(mouseX-width/2, mouseY-height/2);
       newVelocity.setMag(3);
