@@ -71,16 +71,23 @@ function draw() {
 
   //hämta blobs från server
   for (let i = blobs.length-1; i >= 0; i--) {
+
     blobs[i].show();
+
     if(player.eats(blobs[i])){
+
       blobs.splice(i,1);
+      //skicka uppdaterade listan till server efter "ätandet"
+
+      //if satsen bör vara på servernivå och trigga påfyllning av blobs
       if(blobs.length < 195) {
           createBlobs();
       }
     }
-    //blobs[i].show();
   }
 
+
+  //lägga till "player krock" --> constrain funktionen i blob filen
   for (let i = 0; i < otherPlayers.length; i++){
 
     if (otherPlayers[i].id != thisId){
@@ -98,6 +105,7 @@ function draw() {
   player.update();
   player.constrain(-300, 300, -300, 300);
 
+  //skickar clientens data till servers och alla andra
   var data = {
     x: player.pos.x,
     y: player.pos.y,
